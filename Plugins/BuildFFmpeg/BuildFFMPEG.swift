@@ -207,16 +207,15 @@ class BuildFFMPEG: BaseBuild {
             arguments.append("--enable-decoder=hevc_videotoolbox")
             arguments.append("--enable-audiotoolbox")
             arguments.append("--enable-filter=yadif_videotoolbox")
+            arguments.append("--enable-encoder=h264_videotoolbox")
+            arguments.append("--enable-encoder=hevc_videotoolbox")
+            arguments.append("--enable-encoder=prores_videotoolbox")
             if platform == .tvos || platform == .tvsimulator {
                 arguments.append("--disable-filter=scale_vt")
             } else {
                 arguments.append("--enable-filter=scale_vt")
             }
             arguments.append("--enable-filter=transpose_vt")
-        } else {
-            arguments.append("--enable-encoder=h264_videotoolbox")
-            arguments.append("--enable-encoder=hevc_videotoolbox")
-            arguments.append("--enable-encoder=prores_videotoolbox")
         }
         if platform == .macos, arch.executable {
             arguments.append("--enable-ffplay")
