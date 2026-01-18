@@ -22,6 +22,10 @@ class BuildPlacebo: BaseBuild {
         }
     }
 
+    override func platforms() -> [PlatformType] {
+        super.platforms().filter { $0 != .tvsimulator }
+    }
+
     override func arguments(platform _: PlatformType, arch _: ArchType) -> [String] {
         ["-Dxxhash=disabled", "-Dopengl=disabled", "-Ddemos=false"]
     }
@@ -35,7 +39,7 @@ class BuildVulkan: BaseBuild {
     override func platforms() -> [PlatformType] {
         // Placebo编译maccatalyst的时候，vulkan会报找不到UIKit的问题，所以要先屏蔽。
         super.platforms().filter {
-            ![.maccatalyst].contains($0)
+            ![.maccatalyst, .tvsimulator].contains($0)
         }
     }
 
@@ -187,6 +191,10 @@ class BuildShaderc: BaseBuild {
 
     override func frameworks() throws -> [String] {
         ["libshaderc_combined"]
+    }
+
+    override func platforms() -> [PlatformType] {
+        super.platforms().filter { $0 != .tvsimulator }
     }
 
     override func build(platform: PlatformType, arch: ArchType, buildURL: URL) throws {

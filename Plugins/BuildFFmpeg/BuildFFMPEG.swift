@@ -183,6 +183,11 @@ class BuildFFMPEG: BaseBuild {
             } else {
                 arguments.append("--disable-libxml2")
             }
+            if platform == .tvsimulator {
+                arguments.append("--disable-vulkan")
+                arguments.append("--disable-libplacebo")
+                arguments.append("--disable-libshaderc")
+            }
         }
         // arguments.append(arch.cpu())
         /**
