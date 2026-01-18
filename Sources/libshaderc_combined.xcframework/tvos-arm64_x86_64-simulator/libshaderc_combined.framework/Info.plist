@@ -7,7 +7,7 @@
 <key>CFBundleExecutable</key>
 <string>libshaderc_combined</string>
 <key>CFBundleIdentifier</key>
-<string>com.kintan.ksplayer.libshaderc_combined</string>
+<string>com.kintan.ksplayer.libshaderc-combined</string>
 <key>CFBundleInfoDictionaryVersion</key>
 <string>6.0</string>
 <key>CFBundleName</key>

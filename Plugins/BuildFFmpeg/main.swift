@@ -654,7 +654,9 @@ class BaseBuild {
     }
 
     private func createPlist(path: String, name: String, minVersion: String, platform: String) {
-        let identifier = "com.kintan.ksplayer." + name
+        let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: ".-"))
+        let sanitizedName = String(name.unicodeScalars.map { allowed.contains($0) ? Character($0) : "-" })
+        let identifier = "com.kintan.ksplayer." + sanitizedName
         let content = """
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
