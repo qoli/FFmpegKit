@@ -1,0 +1,18 @@
+diff --git a/meson.build b/meson.build
+index b80679d..a348c43 100644
+--- a/meson.build
++++ b/meson.build
+@@ -105,11 +105,11 @@ graphite2_dep = dependency('graphite2', required: get_option('graphite2'))
+ graphite_dep = dependency('graphite2', required: get_option('graphite'))
+ 
+ # Try pkgconfig name
+-icu_dep = dependency('icu-uc', required: false)
++icu_dep = dependency('icu-uc', required: get_option('icu'))
+ if not icu_dep.found()
+   # Try cmake name
+   icu_dep = dependency('ICU',
+-                       required: false,
++                       required: get_option('icu'),
+                        components: 'uc',
+                        method: 'cmake')
+ endif

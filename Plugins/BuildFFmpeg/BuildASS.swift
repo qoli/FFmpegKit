@@ -26,10 +26,23 @@ class BuildHarfbuzz: BaseBuild {
         super.init(library: .libharfbuzz)
     }
 
+    override func cFlags(platform: PlatformType, arch: ArchType) -> [String] {
+        var flags = super.cFlags(platform: platform, arch: arch)
+        flags.append("-Wno-cast-function-type")
+        flags.append("-Wno-cast-function-type-strict")
+        flags.append("-Wno-error=cast-function-type")
+        flags.append("-Wno-error=cast-function-type-strict")
+        return flags
+    }
+
     override func arguments(platform _: PlatformType, arch _: ArchType) -> [String] {
         [
             "-Dglib=disabled",
+            "-Dgobject=disabled",
+            "-Dicu=disabled",
             "-Ddocs=disabled",
+            "-Dtests=disabled",
+            "-Dintrospection=disabled",
         ]
     }
 }

@@ -178,7 +178,11 @@ class BuildFFMPEG: BaseBuild {
 //            arguments.append("--sysroot=\(platform.isysroot)")
         } else {
             arguments.append("--target-os=darwin")
-            arguments.append("--enable-libxml2")
+            if platform == .macos {
+                arguments.append("--enable-libxml2")
+            } else {
+                arguments.append("--disable-libxml2")
+            }
         }
         // arguments.append(arch.cpu())
         /**
@@ -198,7 +202,11 @@ class BuildFFMPEG: BaseBuild {
             arguments.append("--enable-decoder=hevc_videotoolbox")
             arguments.append("--enable-audiotoolbox")
             arguments.append("--enable-filter=yadif_videotoolbox")
-            arguments.append("--enable-filter=scale_vt")
+            if platform == .tvos || platform == .tvsimulator {
+                arguments.append("--disable-filter=scale_vt")
+            } else {
+                arguments.append("--enable-filter=scale_vt")
+            }
             arguments.append("--enable-filter=transpose_vt")
         } else {
             arguments.append("--enable-encoder=h264_videotoolbox")
@@ -233,6 +241,9 @@ class BuildFFMPEG: BaseBuild {
         for library in Library.allCases {
             let path = URL.currentDirectory + [library.rawValue, platform.rawValue, "thin", arch.rawValue]
             if FileManager.default.fileExists(atPath: path.path), library.isFFmpegDependentLibrary {
+                if platform == .tvsimulator, (library == .vulkan || library == .libshaderc || library == .libplacebo) {
+                    continue
+                }
                 arguments.append("--enable-\(library.rawValue)")
                 if library == .libsrt || library == .libsmbclient {
                     arguments.append("--enable-protocol=\(library.rawValue)")
@@ -436,7 +447,11 @@ class BuildBluray: BaseBuild {
 
     // 只有macos支持mount
     override func platforms() -> [PlatformType] {
-        [.macos]
+        BaseBuild.platforms.contains(.macos) ? [.macos] : []
+    }
+
+    override func frameworks() throws -> [String] {
+        BaseBuild.platforms.contains(.macos) ? try super.frameworks() : []
     }
 
     override func arguments(platform: PlatformType, arch: ArchType) -> [String] {
