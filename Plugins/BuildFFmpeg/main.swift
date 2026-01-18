@@ -1059,6 +1059,15 @@ enum Utility {
         if environment["PATH"] == nil {
             environment["PATH"] = "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
         }
+        if environment["HOME"] == nil {
+            environment["HOME"] = FileManager.default.homeDirectoryForCurrentUser.path
+        }
+        if environment["LANG"] == nil {
+            environment["LANG"] = "en_US.UTF-8"
+        }
+        if environment["LC_ALL"] == nil {
+            environment["LC_ALL"] = "en_US.UTF-8"
+        }
         task.environment = environment
         var standardOutput: FileHandle?
         var log = executableURL.path + " " + arguments.joined(separator: " ") + "\n environment: " + environment.description

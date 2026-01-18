@@ -194,6 +194,8 @@ class BuildFFMPEG: BaseBuild {
         }
         if ![.watchsimulator, .watchos, .android].contains(platform) {
             arguments.append("--enable-videotoolbox")
+            arguments.append("--enable-hwaccel=hevc_videotoolbox")
+            arguments.append("--enable-decoder=hevc_videotoolbox")
             arguments.append("--enable-audiotoolbox")
             arguments.append("--enable-filter=yadif_videotoolbox")
             arguments.append("--enable-filter=scale_vt")
@@ -398,6 +400,7 @@ class BuildSRT: BaseBuild {
     override func arguments(platform: PlatformType, arch _: ArchType) -> [String] {
         [
             "-Wno-dev",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
 //            "-DUSE_ENCLIB=openssl",
             "-DUSE_ENCLIB=gnutls",
             "-DENABLE_STDCXX_SYNC=1",

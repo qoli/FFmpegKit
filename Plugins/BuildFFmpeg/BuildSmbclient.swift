@@ -21,12 +21,22 @@ class BuildSmbclient: BaseBuild {
     override func cFlags(platform: PlatformType, arch: ArchType) -> [String] {
         var cFlags = super.cFlags(platform: platform, arch: arch)
         cFlags.append("-Wno-error=implicit-function-declaration")
+        if platform != .android {
+            cFlags.append("-DSTRERROR_R_XSI_NOT_GNU=1")
+        }
         return cFlags
     }
 
     override func environment(platform: PlatformType, arch: ArchType) -> [String: String] {
         var env = super.environment(platform: platform, arch: arch)
+        env["PKG_CONFIG_LIBDIR"] = platform.pkgConfigPath(arch: arch)
+        if let path = env["PATH"] {
+            env["PATH"] = "/usr/bin:" + path
+        } else {
+            env["PATH"] = "/usr/bin"
+        }
         env["PATH"]? += (":" + (URL.currentDirectory + "../Plugins/BuildFFmpeg/\(library.rawValue)/bin").path + ":" + (directoryURL + "buildtools/bin").path)
+        env["PYTHON"] = "/usr/bin/python3"
         env["PYTHONHASHSEED"] = "1"
         env["WAF_MAKE"] = "1"
         return env
