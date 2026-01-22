@@ -302,7 +302,7 @@ class BuildFFMPEG: BaseBuild {
         // ,"--disable-everything"
         // ./configure --list-muxers
         "--disable-muxers",
-        "--enable-muxer=flac", "--enable-muxer=dash", "--enable-muxer=hevc",
+        "--enable-muxer=flac", "--enable-muxer=dash", "--enable-muxer=hls", "--enable-muxer=hevc",
         "--enable-muxer=m4v", "--enable-muxer=matroska", "--enable-muxer=mov", "--enable-muxer=mp4",
         "--enable-muxer=mpegts", "--enable-muxer=webm*",
         "--enable-muxer=nut",
